@@ -12,14 +12,15 @@
 void insertionsort(int arr[], int len)
 {
   int i,j,key;
-  for(j = 1; j < len; j++)
+  for(j = 1; j < len; j++) //loop through the indices of the array
     {
-      key = arr[j];
-      for(i = j - 1; i >= 0 && arr[i] > key; i--)
+      key = arr[j]; //current element
+
+      for(i = j - 1; i >= 0 && arr[i] > key; i--) //loop through the elements to the left of the key
         {
-          arr[i + 1] = arr[i];
+          arr[i + 1] = arr[i]; //shift elements to the right
         }
-      arr[i + 1] = key;
+      arr[i + 1] = key; //insert key in the proper position
     }
 }
 
@@ -27,16 +28,17 @@ void merge(int arr1[], int arr2[], int arr[], double len1, double len2, double l
 {
   int i = 0;
   int j = 0;
+
   while(i + j < len)
     {
-      if(j == len2 || ((i < len1) && (arr1[i] < arr2[j])))
+      if(j == len2 || ((i < len1) && (arr1[i] < arr2[j]))) //test whether the next element to be placed in arr comes from arr1
         {
-          arr[i + j] = arr1[i];
+          arr[i + j] = arr1[i]; //insert the next value from arr1 into arr
           i++;
         }
       else
         {
-          arr[i + j] = arr2[j];
+          arr[i + j] = arr2[j]; //insert the next value from arr2 into arr
           j++;
         }
     }
@@ -44,34 +46,37 @@ void merge(int arr1[], int arr2[], int arr[], double len1, double len2, double l
 
 void mergesort(int arr[], double len)
 {
-  if(len < 2) return;
+  if(len < 2) return; //array is of length 1; trivially sorted
 
-  double mid = floor(len/2);
-  int tmid = mid;
-  double mid2 = ceil(len/2);
-  int tmid2 = mid2;
-  int arr1[tmid];
+  double mid = floor(len/2); //midpoint index of the array based on floor division
+  int tmid = mid; //int of mid
+  double mid2 = ceil(len/2); //midpoint index of the array based on ceiling division
+  int tmid2 = mid2; //int of mid2
+
+  int arr1[tmid]; //create subarrays
   int arr2[tmid2];
-  for(int i = 0; i < mid; i++) arr1[i] = arr[i];
-  for(int j = mid; j < len; j++) arr2[j-tmid] = arr[j];
 
-  mergesort(arr1, mid);
-  mergesort(arr2, mid2);
-  merge(arr1, arr2, arr, mid, mid2, len);
+  for(int i = 0; i < mid; i++) arr1[i] = arr[i]; //fill array1
+  for(int j = mid; j < len; j++) arr2[j-tmid] = arr[j]; //fill array2
+
+  mergesort(arr1, mid); //mergesort call on the 1st half
+  mergesort(arr2, mid2); //mergesort call on the 2nd half
+  merge(arr1, arr2, arr, mid, mid2, len); //merge the sorted halves
 }
 
 void number_generator(int size)
 {
-  srand(time(NULL));
+  srand(time(NULL)); //set rand function seed based on the time
+
   char f[] = ".txt";
   char s[sizeof(char)*(int)log10(size)];
   sprintf(s, "%d", size);
-  strcat(s, f);
+  strcat(s, f); //create the output filename based on the size
 
   int r;
   FILE *outfile;
   outfile = fopen(s, "w");
-  for(int i = 0; i < size; i++)
+  for(int i = 0; i < size; i++) //write the amount of random numbers size indicates
     {
       r = rand();
       fprintf(outfile, "%d\n", r);
@@ -81,7 +86,9 @@ void number_generator(int size)
 
 void sorter(int size)
 {
-  char f[] = ".txt";
+  number_generator(size); // generate the file of random numbers
+
+  char f[] = ".txt"; //create the pieces needed for all of the filenames
   char s[size+4];
   char t[size+18];
   char u[size+14];
@@ -94,7 +101,7 @@ void sorter(int size)
   sprintf(t, "%d", size);
   sprintf(u, "%d", size);
   //sprintf(v, "%d", size);
-  strcat(s, f);
+  strcat(s, f); //create the filenames
   strcat(t, ins);
   strcat(u, mer);
   //strcat(v, qui);
@@ -102,7 +109,7 @@ void sorter(int size)
   FILE *infile;
   infile = fopen(s, "r");
 
-  int insertion[size];
+  int insertion[size]; //the arrays to be sorted by their respective sort
   int merge[size];
   //int quick[size];
 
@@ -112,18 +119,18 @@ void sorter(int size)
   mergefile = fopen(u, "w");
   //FILE *quickfile;
   //quickfile = fopen(v, "w");
-  for(int i = 0; i < size; i++)
+  for(int i = 0; i < size; i++) //fill the arrays to be sorted with the random numbers from the appropriate file
     {
       fscanf(infile, "%d", &insertion[i]);
       merge[i] = insertion[i];
       //quick[i] = merge[i];
     }
   
-  insertionsort(insertion, size);
+  insertionsort(insertion, size); //sort the arrays
   mergesort(merge, size);
   //quicksort(quick);
   
-  for(int j = 0; j < size; j++)
+  for(int j = 0; j < size; j++) //write the values in the sorted arrays to the appropriate files
     {
       fprintf(insertionfile, "%d\n", insertion[j]);
       fprintf(mergefile, "%d\n", merge[j]);
@@ -133,23 +140,11 @@ void sorter(int size)
 
 int main()
 {
-
-
-  number_generator(10);
-  sorter(10);
-  
-
-  /***************************************************************
-  int sample[] = {10, 5, 7, 2, 3, 8, 4, 1, 9, 6};
-  int sample2[] = {10, 5, 7, 2, 3, 8, 4, 1, 9, 6};
-  double len = sizeof(sample)/sizeof(*sample);
-  mergesort(sample, len);
-  insertionsort(sample2, len);
-  for(int i = 0; i < 10; i++)
-    {
-      printf("%d\n", sample[i]);
-      printf("%d\n", sample2[i]);
-    }*/
+  sorter(10); //generate random numbers, sort, and create appropriate files
+  sorter(100);
+  sorter(1000);
+  sorter(10000);
+  sorter(100000);
 
   return 0;
 }

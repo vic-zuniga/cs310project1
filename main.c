@@ -81,6 +81,7 @@ void number_generator(int size)
       r = rand();
       fprintf(outfile, "%d\n", r);
     }
+
   fclose(outfile);
 }
 
@@ -136,6 +137,11 @@ void sorter(int size)
       fprintf(mergefile, "%d\n", merge[j]);
       //fprintf(quickfile, "%d\n", quick[j]);
     }
+
+  fclose(infile); //close files
+  fclose(insertionfile);
+  fclose(mergefile);
+  //fclose(quickfile);
 }
 
 int main()

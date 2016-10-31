@@ -197,7 +197,7 @@ void sorter(int size)
   fclose(quickfile);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 
   printf("Input size (N): (# of numbers)  Sorting algorithm:  Time cost:\n");
@@ -206,6 +206,16 @@ int main()
   sorter(1000);
   sorter(10000);
   sorter(100000);
+
+  printf("Type Y to delete generated files, type anything else to exit.\n");
+  char answer;
+  int status;
+  scanf("%c", &answer);
+  if(answer == 'y' || answer == 'Y')
+    {
+      system("rm 1*.txt"); 
+      printf("Files deleted.\n");
+    }
 
   return 0;
 }

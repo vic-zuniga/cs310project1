@@ -200,7 +200,7 @@ void sorter(int size)
 int main(int argc, char* argv[])
 {
 
-  printf("Input size (N): (# of numbers)  Sorting algorithm:  Time cost:\n");
+  printf("Input size (N): (# of numbers)  Sorting algorithm:  Time cost (sec):\n");
   sorter(10); //generate random numbers, sort, and create appropriate files
   sorter(100);
   sorter(1000);
